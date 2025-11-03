@@ -1,6 +1,12 @@
+require('dotenv').config();
+const mongoose = require('mongoose');
 const express = require('express')
 const app = express()
-const PORT = 8000
+const PORT = 9600
+
+mongoose.connect(process.env.MONGODB_URI).then(() => {
+    console.log("Connected to DB")
+})
 
 app.get('',(req, res)=>
 {
