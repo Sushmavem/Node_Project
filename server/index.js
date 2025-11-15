@@ -1,27 +1,20 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
-const express = require('express')
-const app = express()
-const PORT = 9600
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./config/db.js");
 
-mongoose.connect(process.env.MONGODB_URI).then(() => {
-    console.log("Connected to DB")
-})
+const app = express();
+const PORT = process.env.PORT || 8000;
 
-app.get('',(req, res)=>
-{
-    res.send("Hello Sushma !!");
+app.use(cors());
+app.use(express.json());
+
+app.use("/api/products", require("./routes/product.route.js"));
+
+app.get("/", (req, res) => {
+  res.send("Backend Working");
 });
 
-app.listen(PORT,() =>
-{
-console.log(`server running on PORT ${PORT}`)
-})
+connectDB();
 
-app.use(express.json());
-app.post('/api/data',(req,res)=>
-{
-    res.send(req.body);
-    console.log(req.body);
-}
-)
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
